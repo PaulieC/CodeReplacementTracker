@@ -133,8 +133,8 @@ class CodeRefactor:
                                 print("%s::\n" % key)
                                 items = self.replacement_dict.get(key)
                                 for val in items:
-                                    out_file.write("\t%s\n" % val)
-                                    print("\t%s\n" % val)
+                                    out_file.write("%s\n" % val)
+                                    print("%s\n" % val)
                             out_file.close()
                     except FileNotFoundError:
                         print("ERROR: Original destination file wasn't found.\n"
