@@ -60,33 +60,52 @@ class CodeRefactor:
         return success
 
     def set_word_associations(self):
-        number_code = input("How many words should we search for?\n"
-                            "::  ")
-        try:
-            number_code = int(number_code)
-            if number_code > 0:
-                if self.limit > 0:
-                    overwrite = input("The limit has already been set. Overwrite this? (Y/N)\n"
-                                      "::  ")
-                    if overwrite.upper() == "Y":
-                        self.replacement_dict = {}
-                        self.old_code_list  =[]
-                        self.new_code_list = []
-                    else:
-                        print("Understood. Leaving this limit alone.")
-                        return
-                self.limit = number_code
-                try:
-                    self.load_lists()
-                    print("Success!!")
-                except Exception:
-                    print("There was a problem filling the list of old code. Try again.")
-            else:
-                print("The number of words must be at least 1.\n"
-                      "Try again...")
-        except ValueError:
-            print("The number of words to find should be an integer.\n"
-                  "Try again...")
+        # number_code = input("How many words should we search for?\n"
+        #                     "::  ")
+        t = Toplevel()
+        t.title("New Window")
+        # row 1
+        var1 = StringVar()
+        legacy1 = StringVar()
+        Label(t, text="fna$").grid(row=1, column=0, sticky=W)
+        Checkbutton(t, text="MDate.formatDateShortYear", variable=var1).grid(row=1, column=1, sticky=W)
+        Checkbutton(t, text="Legacy.formatDateShortYear", variable=legacy1).grid(row=1, column=2, sticky=W)
+        # row 2
+        var2 = StringVar()
+        legacy2 = StringVar()
+        Label(t, text="fnax$").grid(row=2, sticky=W)
+        Checkbutton(t, text="MDate.formatDateLongYear", variable=var2).grid(row=2, column=1, sticky=W)
+        Checkbutton(t, text="Legacy.formatDateLongYear", variable=legacy2).grid(row=2, column=2, sticky=W)
+        # row 3
+        var3 = StringVar()
+        legacy3 = StringVar()
+        Label(t, text="fnas$").grid(row=3, sticky=W)
+        Checkbutton(t, text="MDate.formatDateMonthDay", variable=var3).grid(row=3, column=1, sticky=W)
+        Checkbutton(t, text="Legacy.formatDateMonthDay", variable=legacy3).grid(row=3, column=2, sticky=W)
+        # row 4
+        var4 = StringVar()
+        legacy4 = StringVar()
+        Label(t, text="fnudate$").grid(row=4, sticky=W)
+        Checkbutton(t, text="MDate.unpackDate", variable=var4).grid(row=4, column=1, sticky=W)
+        Checkbutton(t, text="Legacy.unpackDate", variable=legacy4).grid(row=4, column=2, sticky=W)
+        # row 5
+        var5 = StringVar()
+        legacy5 = StringVar()
+        Label(t, text="fnpdate$").grid(row=5, sticky=W)
+        Checkbutton(t, text="MDate.packDate", variable=var5).grid(row=5, column=1, sticky=W)
+        Checkbutton(t, text="Legacy.packDate", variable=legacy5).grid(row=5, column=2, sticky=W)
+        # row 6
+        var6 = StringVar()
+        legacy6 = StringVar()
+        Label(t, text="fnp$").grid(row=6, sticky=W)
+        Checkbutton(t, text="MHouse.packHouseNumber", variable=var6).grid(row=6, column=1, sticky=W)
+        Checkbutton(t, text="Legacy.packHouseNumber", variable=legacy6).grid(row=6, column=2, sticky=W)
+        # row 7
+        var7 = StringVar()
+        legacy7 = StringVar()
+        Label(t, text="fnu$").grid(row=7, sticky=W)
+        Checkbutton(t, text="MHouse.unpackHouseNumber", variable=var7).grid(row=7, column=1, sticky=W)
+        Checkbutton(t, text="Legacy.unpackHouseNumber", variable=legacy7).grid(row=7, column=2, sticky=W)
 
     def load_lists(self):
         # load the old code list
