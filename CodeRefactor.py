@@ -10,7 +10,7 @@ __author__ = 'PaulieC'
 
 # imports
 import os
-from tkinter import Tk
+from tkinter import *
 from tkinter.filedialog import askopenfilename
 
 class CodeRefactor:
@@ -18,11 +18,26 @@ class CodeRefactor:
 
     def __init__(self):
         self.tk = Tk()
+        self.tk.title("Testing the title")
+        self.load_buttons()
+
         self.old_code_list = []
         self.new_code_list = []
         self.replacement_dict = {}
         self.limit = -1
         self.path_list = ["", ""]
+
+    def load_buttons(self):
+        self.source_dir_button = Button(self.tk, text="Assign Source File", command=lambda: self.request_directory(0))
+        self.source_dir_button.pack()
+
+        self.dest_dir_button = Button(self.tk, text="Assign Destination File", command=lambda: self.request_directory(1))
+        self.dest_dir_button.pack()
+
+        self.assign_replacement_button = Button(self.tk, text="Text Replacement", command=self.set_word_associations)
+        self.assign_replacement_button.pack()
+
+
 
     def verify_directory(self, directory: str) -> bool:
         """
@@ -34,7 +49,6 @@ class CodeRefactor:
         return file_location_exists
 
     def request_directory(self, index: int) -> bool:
-        self.tk.withdraw()
         path_loc = askopenfilename()
         success = False
         if  self.verify_directory(path_loc):
@@ -46,11 +60,6 @@ class CodeRefactor:
         return success
 
     def set_word_associations(self):
-        """
-        Accepts a limit value from the user and requests this amount of words
-        for each list (old_code/new_code). The user has the option to overwrite
-        these values should they decide to assign values again.
-        """
         number_code = input("How many words should we search for?\n"
                             "::  ")
         try:
@@ -80,10 +89,6 @@ class CodeRefactor:
                   "Try again...")
 
     def load_lists(self):
-        """
-        Requests from the user the words find and what you plan
-        to use to replace them with.
-        """
         # load the old code list
         print("We will begin adding words for searching.\n"
               "WARNING!!\n"
@@ -103,11 +108,6 @@ class CodeRefactor:
             self.replacement_dict.setdefault(key, [])
 
     def process_words_in_directories(self):
-        """
-        Performs the work of finding the line occurrences of the old
-        code value and saves the new code value to the dictionary with
-        the associated line number.
-        """
         if self.old_code_list and self.new_code_list:
             if self.path_list[0] and self.path_list[1]:
                 print("Locating words in file of source directory...")
@@ -158,11 +158,6 @@ class CodeRefactor:
                 print("     " + val)
 
     def handle_selection(self, user_choice: int) -> bool:
-        """
-        Handles the selection choice of the user
-        :param user_choice: int
-        :return: bool
-        """
         status = True
         if user_choice == 1:
             # request source directory from user
@@ -198,27 +193,28 @@ class CodeRefactor:
     def run_menu(self):
         """ Continuous loop for printing the menu """
         running = True
-        try:
-            while running:
-                print("1.   Setup source directory")
-                print("2.   Setup destination directory")
-                print("3.   Create lists of find/replace code pieces")
-                print("4.   Process with current settings")
-                print("5.   Quit")
-                user_choice = input("Make selection\n"
-                                    "::  ")
-                try:
-                    user_choice = int(user_choice)
-                except ValueError:
-                    print("This choice must be an integer value. Try again...")
-                running = self.handle_selection(user_choice)
-                print()
-        except Exception:
-            print("Unknown error occurred.\n"
-                  "Suggest running debugger.\n"
-                  "\n"
-                  "Quit Program (SUGGESTED)\n"
-                  "::  ")
+        self.tk.mainloop()
+        # try:
+        #     while running:
+        #         print("1.   Setup source directory")
+        #         print("2.   Setup destination directory")
+        #         print("3.   Create lists of find/replace code pieces")
+        #         print("4.   Process with current settings")
+        #         print("5.   Quit")
+        #         user_choice = input("Make selection\n"
+        #                             "::  ")
+        #         try:
+        #             user_choice = int(user_choice)
+        #         except ValueError:
+        #             print("This choice must be an integer value. Try again...")
+        #         running = self.handle_selection(user_choice)
+        #         print()
+        # except Exception:
+        #     print("Unknown error occurred.\n"
+        #           "Suggest running debugger.\n"
+        #           "\n"
+        #           "Quit Program (SUGGESTED)\n"
+        #           "::  ")
 
     def main(self):
         self.run_menu()
