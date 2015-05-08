@@ -10,11 +10,14 @@ __author__ = 'PaulieC'
 
 # imports
 import os
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
 
 class CodeRefactor:
     """ Class to read through a file for select words and write out the line number that this word occurs on. """
 
     def __init__(self):
+        self.tk = Tk()
         self.old_code_list = []
         self.new_code_list = []
         self.replacement_dict = {}
@@ -31,14 +34,8 @@ class CodeRefactor:
         return file_location_exists
 
     def request_directory(self, index: int) -> bool:
-        """
-        Requests a directory from the user and check if this directory exists.
-        If it does, this directory is assigned to the class variable.
-        :param index: int
-        :return: bool
-        """
-        path_loc = input("Enter the directory\n"
-                         "::  ")
+        self.tk.withdraw()
+        path_loc = askopenfilename()
         success = False
         if  self.verify_directory(path_loc):
             print("Using location: " + path_loc)
