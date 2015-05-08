@@ -136,6 +136,7 @@ class CodeRefactor:
                                     out_file.write("%s\n" % val)
                                     print("%s\n" % val)
                             out_file.close()
+                        self.clear_dictionary()
                     except FileNotFoundError:
                         print("ERROR: Original destination file wasn't found.\n"
                               "Physically check directory.")
@@ -147,6 +148,10 @@ class CodeRefactor:
                       "Run option 1 and/or 2.")
         else:
             print("The lists are empty. Run option 4 before trying to process.")
+
+    def clear_dictionary(self):
+       for key in self.replacement_dict:
+           self.replacement_dict[key] = []
 
     def print_dict(self):
         for key in self.replacement_dict:
