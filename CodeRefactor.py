@@ -42,6 +42,9 @@ class CodeRefactor:
         self.assign_replacement_button = Button(self.tk, text="Text Replacement", command=self.set_word_associations)
         self.assign_replacement_button.pack()
 
+        self.process_words_button = Button(self.tk, text="Process Selections", command=self.process_words_in_directories)
+        self.process_words_button.pack()
+
 
 
     def verify_directory(self, directory: str) -> bool:
@@ -154,22 +157,27 @@ class CodeRefactor:
     def add_selected(self, method_list: [str], functions_list: [str], win: Toplevel):
         # load values in the old code list
         self.load_old_list()
-        print("MethodList: \n")
         i = 0
         for m, l in zip(method_list, functions_list):
             if m != "0":
                 self.new_code_list.append(m)
+                self.replacement_dict[m] = []
             elif l != "0":
                 self.new_code_list.append(l)
+                self.replacement_dict[l] = []
             else:
                 self.old_code_list[i] = None
             i += 1
+        # clean the old_code_list
+        self.old_code_list = list(filter((None).__ne__, self.old_code_list))
+        self.limit = len(self.old_code_list)
         win.destroy()
 
     def load_old_list(self):
         self.old_code_list = ["fna$", "fnax$", "fnas$", "fnudate$", "fnpdate$", "fnp$", "fnu$"]
 
     def load_lists(self):
+        # TODO deprecated?
         # load the old code list
         print("We will begin adding words for searching.\n"
               "WARNING!!\n"
@@ -214,6 +222,8 @@ class CodeRefactor:
                                     out_file.write("%s\n" % val)
                                     print("%s\n" % val)
                             out_file.close()
+                            print("Finished writing out file!\nOpening File...")
+                            os.startfile(self.path_list[1])
                         self.clear_dictionary()
                     except FileNotFoundError:
                         print("ERROR: Original destination file wasn't found.\n"
