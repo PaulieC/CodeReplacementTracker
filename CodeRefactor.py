@@ -17,10 +17,14 @@ class CodeRefactor:
     """ Class to read through a file for select words and write out the line number that this word occurs on. """
 
     def __init__(self):
+        # variables for the gui to perform as expected
         self.tk = Tk()
         self.tk.title("Testing the title")
         self.load_buttons()
+        self.m_vars = []
+        self.l_vars = []
 
+        # backend variables
         self.old_code_list = []
         self.new_code_list = []
         self.replacement_dict = {}
@@ -64,48 +68,95 @@ class CodeRefactor:
         #                     "::  ")
         t = Toplevel()
         t.title("New Window")
+        r = 0
+        c0 = 0
+        c1 = 1
+        c2 = 2
+        var1=StringVar(); var1.set(False)
+        var2=StringVar(); var2.set(False)
+        var3=StringVar(); var3.set(False)
+        var4=StringVar(); var4.set(False)
+        var5=StringVar(); var5.set(False)
+        var6=StringVar(); var6.set(False)
+        var7=StringVar(); var7.set(False)
+        leg1=StringVar(); leg1.set(False)
+        leg2=StringVar(); leg2.set(False)
+        leg3=StringVar(); leg3.set(False)
+        leg4=StringVar(); leg4.set(False)
+        leg5=StringVar(); leg5.set(False)
+        leg6=StringVar(); leg6.set(False)
+        leg7=StringVar(); leg7.set(False)
+
         # row 1
-        var1 = StringVar()
-        legacy1 = StringVar()
-        Label(t, text="fna$").grid(row=1, column=0, sticky=W)
-        Checkbutton(t, text="MDate.formatDateShortYear", variable=var1).grid(row=1, column=1, sticky=W)
-        Checkbutton(t, text="Legacy.formatDateShortYear", variable=legacy1).grid(row=1, column=2, sticky=W)
+        m_on1 = "MDate.formatDateShortYear"
+        l_on1 = "Legacy.formatDateShortYear"
+        Label(t, text="fna$").grid(row=r, column=c0, sticky=W)
+        Checkbutton(t, text=m_on1, variable=var1, onvalue=m_on1, offvalue=None).grid(row=r, column=c1, sticky=W)
+        Checkbutton(t, text=l_on1, variable=leg1, onvalue=l_on1, offvaleu=None).grid(row=r, column=c2, sticky=W)
+        r += 1
+
         # row 2
-        var2 = StringVar()
-        legacy2 = StringVar()
-        Label(t, text="fnax$").grid(row=2, sticky=W)
-        Checkbutton(t, text="MDate.formatDateLongYear", variable=var2).grid(row=2, column=1, sticky=W)
-        Checkbutton(t, text="Legacy.formatDateLongYear", variable=legacy2).grid(row=2, column=2, sticky=W)
+        m_on2 = "MDate.formatDateLongYear"
+        l_on2 = "Legacy.formatDateLongYear"
+        Label(t, text="fnax$").grid(row=r, column=c0, sticky=W)
+        Checkbutton(t, text=m_on2, variable=var2, onvalue=m_on2, offvalue=None).grid(row=r, column=c1, sticky=W)
+        Checkbutton(t, text=l_on2, variable=leg2, onvalue=l_on2, offvalue=None).grid(row=r, column=c2, sticky=W)
+        r += 1
+
         # row 3
-        var3 = StringVar()
-        legacy3 = StringVar()
-        Label(t, text="fnas$").grid(row=3, sticky=W)
-        Checkbutton(t, text="MDate.formatDateMonthDay", variable=var3).grid(row=3, column=1, sticky=W)
-        Checkbutton(t, text="Legacy.formatDateMonthDay", variable=legacy3).grid(row=3, column=2, sticky=W)
+        m_on3 = "MDate.formatDateMonthDay"
+        l_on3 = "Legacy.formatDateMonthDay"
+        Label(t, text="fnas$").grid(row=r, column=c0, sticky=W)
+        Checkbutton(t, text=m_on3, variable=var3, onvalue=m_on3, offvalue=None).grid(row=r, column=c1, sticky=W)
+        Checkbutton(t, text=l_on3, variable=leg3, onvalue=l_on3, offvalue=None).grid(row=r, column=c2, sticky=W)
+        r += 1
+
         # row 4
-        var4 = StringVar()
-        legacy4 = StringVar()
-        Label(t, text="fnudate$").grid(row=4, sticky=W)
-        Checkbutton(t, text="MDate.unpackDate", variable=var4).grid(row=4, column=1, sticky=W)
-        Checkbutton(t, text="Legacy.unpackDate", variable=legacy4).grid(row=4, column=2, sticky=W)
+        m_on4 = "MDate.unpackDate"
+        l_on4 = "Legacy.unpackDate"
+        Label(t, text="fnudate$").grid(row=r, column=c0, sticky=W)
+        Checkbutton(t, text=m_on4, variable=var4, onvalue=m_on4, offvalue=None).grid(row=r, column=c1, sticky=W)
+        Checkbutton(t, text=l_on4, variable=leg4, onvalue=l_on4, offvalue=None).grid(row=r, column=c2, sticky=W)
+        r += 1
+
         # row 5
-        var5 = StringVar()
-        legacy5 = StringVar()
-        Label(t, text="fnpdate$").grid(row=5, sticky=W)
-        Checkbutton(t, text="MDate.packDate", variable=var5).grid(row=5, column=1, sticky=W)
-        Checkbutton(t, text="Legacy.packDate", variable=legacy5).grid(row=5, column=2, sticky=W)
+        m_on5 = "MDate.packDate"
+        l_on5 = "Legacy.packDate"
+        Label(t, text="fnpdate$").grid(row=r, column=c0, sticky=W)
+        Checkbutton(t, text=m_on5, variable=var5, onvalue=m_on5, offvalue=None).grid(row=r, column=c1, sticky=W)
+        Checkbutton(t, text=l_on5, variable=leg5, onvalue=l_on5, offvalue=None).grid(row=r, column=c2, sticky=W)
+        r += 1
+
         # row 6
-        var6 = StringVar()
-        legacy6 = StringVar()
-        Label(t, text="fnp$").grid(row=6, sticky=W)
-        Checkbutton(t, text="MHouse.packHouseNumber", variable=var6).grid(row=6, column=1, sticky=W)
-        Checkbutton(t, text="Legacy.packHouseNumber", variable=legacy6).grid(row=6, column=2, sticky=W)
+        m_on6 = "MHouse.packHouseNumber"
+        l_on6 = "Legacy.packHouseNumber"
+        Label(t, text="fnp$").grid(row=r, column=c0, sticky=W)
+        Checkbutton(t, text=m_on6, variable=var6, onvalue=m_on6, offvalue=None).grid(row=r, column=c1, sticky=W)
+        Checkbutton(t, text=l_on6, variable=leg6, onvalue=l_on6, offvalue=None).grid(row=r, column=c2, sticky=W)
+        r += 1
+
         # row 7
-        var7 = StringVar()
-        legacy7 = StringVar()
-        Label(t, text="fnu$").grid(row=7, sticky=W)
-        Checkbutton(t, text="MHouse.unpackHouseNumber", variable=var7).grid(row=7, column=1, sticky=W)
-        Checkbutton(t, text="Legacy.unpackHouseNumber", variable=legacy7).grid(row=7, column=2, sticky=W)
+        m_on7 = "MHouse.unpackHouseNumber"
+        l_on7 = "Legacy.unpackHouseNumber"
+        Label(t, text="fnu$").grid(row=r, column=c0, sticky=W)
+        Checkbutton(t, text=m_on7, variable=var7, onvalue=m_on7, offvalue=None).grid(row=r, column=c1, sticky=W)
+        Checkbutton(t, text=l_on7, variable=leg7, onvalue=l_on7, offvalue=None).grid(row=r, column=c2, sticky=W)
+        r += 1
+
+        # # process button
+        Button(t, text="Add selected", command=lambda: self.add_selected([var1.get(),var2.get(),var3.get(),var4.get(),
+                                                                          var5.get(),var6.get(),var7.get()],
+                                                                         [leg1.get(),leg2.get(),leg3.get(),leg4.get(),
+                                                                          leg5.get(),leg6.get(),leg7.get()]
+                                                                        )).grid(row=r, column=c1, sticky=W)
+
+    def add_selected(self, method_list: list, functions_list: list):
+        print("MethodList: \n")
+        for item in method_list:
+            print(str(item))
+        print("FunctionsList: \n")
+        for item in functions_list:
+            print(str(item))
 
     def load_lists(self):
         # load the old code list
