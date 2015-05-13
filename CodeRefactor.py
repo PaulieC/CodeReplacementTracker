@@ -13,6 +13,7 @@ import os
 from tkinter import *
 from tkinter.filedialog import askopenfilename
 
+
 class CodeRefactor:
     """ Class to read through a file for select words and write out the line number that this word occurs on. """
 
@@ -148,15 +149,25 @@ class CodeRefactor:
                                                                           var5.get(),var6.get(),var7.get()],
                                                                          [leg1.get(),leg2.get(),leg3.get(),leg4.get(),
                                                                           leg5.get(),leg6.get(),leg7.get()]
-                                                                        )).grid(row=r, column=c1, sticky=W)
+                                                                        , t)).grid(row=r, column=c1, sticky=W)
 
-    def add_selected(self, method_list: list, functions_list: list):
+    def add_selected(self, method_list: [str], functions_list: [str], win: Toplevel):
+        # load values in the old code list
+        self.load_old_list()
         print("MethodList: \n")
-        for item in method_list:
-            print(str(item))
-        print("FunctionsList: \n")
-        for item in functions_list:
-            print(str(item))
+        i = 0
+        for m, l in zip(method_list, functions_list):
+            if m != "0":
+                self.new_code_list.append(m)
+            elif l != "0":
+                self.new_code_list.append(l)
+            else:
+                self.old_code_list[i] = None
+            i += 1
+        win.destroy()
+
+    def load_old_list(self):
+        self.old_code_list = ["fna$", "fnax$", "fnas$", "fnudate$", "fnpdate$", "fnp$", "fnu$"]
 
     def load_lists(self):
         # load the old code list
