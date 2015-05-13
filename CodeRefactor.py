@@ -48,11 +48,6 @@ class CodeRefactor:
 
 
     def verify_directory(self, directory: str) -> bool:
-        """
-        Checks if the input directory exists on the system
-        :param directory: str
-        :return: bool
-        """
         file_location_exists = os.path.exists(directory)
         return file_location_exists
 
@@ -68,91 +63,91 @@ class CodeRefactor:
         return success
 
     def set_word_associations(self):
-        # number_code = input("How many words should we search for?\n"
-        #                     "::  ")
         t = Toplevel()
         t.title("New Window")
+
         r = 0
         c0 = 0
         c1 = 1
         c2 = 2
-        var1=StringVar(); var1.set(False)
-        var2=StringVar(); var2.set(False)
-        var3=StringVar(); var3.set(False)
-        var4=StringVar(); var4.set(False)
-        var5=StringVar(); var5.set(False)
-        var6=StringVar(); var6.set(False)
-        var7=StringVar(); var7.set(False)
-        leg1=StringVar(); leg1.set(False)
-        leg2=StringVar(); leg2.set(False)
-        leg3=StringVar(); leg3.set(False)
-        leg4=StringVar(); leg4.set(False)
-        leg5=StringVar(); leg5.set(False)
-        leg6=StringVar(); leg6.set(False)
-        leg7=StringVar(); leg7.set(False)
+        var1 = StringVar(); var1.set(False)
+        var2 = StringVar(); var2.set(False)
+        var3 = StringVar(); var3.set(False)
+        var4 = StringVar(); var4.set(False)
+        var5 = StringVar(); var5.set(False)
+        var6 = StringVar(); var6.set(False)
+        var7 = StringVar(); var7.set(False)
+        leg1 = StringVar(); leg1.set(False)
+        leg2 = StringVar(); leg2.set(False)
+        leg3 = StringVar(); leg3.set(False)
+        leg4 = StringVar(); leg4.set(False)
+        leg5 = StringVar(); leg5.set(False)
+        leg6 = StringVar(); leg6.set(False)
+        leg7 = StringVar(); leg7.set(False)
+        checkbox_off = None
 
         # row 1
         m_on1 = "MDate.formatDateShortYear"
         l_on1 = "Legacy.formatDateShortYear"
         Label(t, text="fna$").grid(row=r, column=c0, sticky=W)
-        Checkbutton(t, text=m_on1, variable=var1, onvalue=m_on1, offvalue=None).grid(row=r, column=c1, sticky=W)
-        Checkbutton(t, text=l_on1, variable=leg1, onvalue=l_on1, offvaleu=None).grid(row=r, column=c2, sticky=W)
+        Checkbutton(t, text=m_on1, variable=var1, onvalue=m_on1, offvalue=checkbox_off).grid(row=r, column=c1, sticky=W)
+        Checkbutton(t, text=l_on1, variable=leg1, onvalue=l_on1, offvaleu=checkbox_off).grid(row=r, column=c2, sticky=W)
         r += 1
 
         # row 2
         m_on2 = "MDate.formatDateLongYear"
         l_on2 = "Legacy.formatDateLongYear"
         Label(t, text="fnax$").grid(row=r, column=c0, sticky=W)
-        Checkbutton(t, text=m_on2, variable=var2, onvalue=m_on2, offvalue=None).grid(row=r, column=c1, sticky=W)
-        Checkbutton(t, text=l_on2, variable=leg2, onvalue=l_on2, offvalue=None).grid(row=r, column=c2, sticky=W)
+        Checkbutton(t, text=m_on2, variable=var2, onvalue=m_on2, offvalue=checkbox_off).grid(row=r, column=c1, sticky=W)
+        Checkbutton(t, text=l_on2, variable=leg2, onvalue=l_on2, offvalue=checkbox_off).grid(row=r, column=c2, sticky=W)
         r += 1
 
         # row 3
         m_on3 = "MDate.formatDateMonthDay"
         l_on3 = "Legacy.formatDateMonthDay"
         Label(t, text="fnas$").grid(row=r, column=c0, sticky=W)
-        Checkbutton(t, text=m_on3, variable=var3, onvalue=m_on3, offvalue=None).grid(row=r, column=c1, sticky=W)
-        Checkbutton(t, text=l_on3, variable=leg3, onvalue=l_on3, offvalue=None).grid(row=r, column=c2, sticky=W)
+        Checkbutton(t, text=m_on3, variable=var3, onvalue=m_on3, offvalue=checkbox_off).grid(row=r, column=c1, sticky=W)
+        Checkbutton(t, text=l_on3, variable=leg3, onvalue=l_on3, offvalue=checkbox_off).grid(row=r, column=c2, sticky=W)
         r += 1
 
         # row 4
         m_on4 = "MDate.unpackDate"
         l_on4 = "Legacy.unpackDate"
         Label(t, text="fnudate$").grid(row=r, column=c0, sticky=W)
-        Checkbutton(t, text=m_on4, variable=var4, onvalue=m_on4, offvalue=None).grid(row=r, column=c1, sticky=W)
-        Checkbutton(t, text=l_on4, variable=leg4, onvalue=l_on4, offvalue=None).grid(row=r, column=c2, sticky=W)
+        Checkbutton(t, text=m_on4, variable=var4, onvalue=m_on4, offvalue=checkbox_off).grid(row=r, column=c1, sticky=W)
+        Checkbutton(t, text=l_on4, variable=leg4, onvalue=l_on4, offvalue=checkbox_off).grid(row=r, column=c2, sticky=W)
         r += 1
 
         # row 5
         m_on5 = "MDate.packDate"
         l_on5 = "Legacy.packDate"
         Label(t, text="fnpdate$").grid(row=r, column=c0, sticky=W)
-        Checkbutton(t, text=m_on5, variable=var5, onvalue=m_on5, offvalue=None).grid(row=r, column=c1, sticky=W)
-        Checkbutton(t, text=l_on5, variable=leg5, onvalue=l_on5, offvalue=None).grid(row=r, column=c2, sticky=W)
+        Checkbutton(t, text=m_on5, variable=var5, onvalue=m_on5, offvalue=checkbox_off).grid(row=r, column=c1, sticky=W)
+        Checkbutton(t, text=l_on5, variable=leg5, onvalue=l_on5, offvalue=checkbox_off).grid(row=r, column=c2, sticky=W)
         r += 1
 
         # row 6
         m_on6 = "MHouse.packHouseNumber"
         l_on6 = "Legacy.packHouseNumber"
         Label(t, text="fnp$").grid(row=r, column=c0, sticky=W)
-        Checkbutton(t, text=m_on6, variable=var6, onvalue=m_on6, offvalue=None).grid(row=r, column=c1, sticky=W)
-        Checkbutton(t, text=l_on6, variable=leg6, onvalue=l_on6, offvalue=None).grid(row=r, column=c2, sticky=W)
+        Checkbutton(t, text=m_on6, variable=var6, onvalue=m_on6, offvalue=checkbox_off).grid(row=r, column=c1, sticky=W)
+        Checkbutton(t, text=l_on6, variable=leg6, onvalue=l_on6, offvalue=checkbox_off).grid(row=r, column=c2, sticky=W)
         r += 1
 
         # row 7
         m_on7 = "MHouse.unpackHouseNumber"
         l_on7 = "Legacy.unpackHouseNumber"
         Label(t, text="fnu$").grid(row=r, column=c0, sticky=W)
-        Checkbutton(t, text=m_on7, variable=var7, onvalue=m_on7, offvalue=None).grid(row=r, column=c1, sticky=W)
-        Checkbutton(t, text=l_on7, variable=leg7, onvalue=l_on7, offvalue=None).grid(row=r, column=c2, sticky=W)
+        Checkbutton(t, text=m_on7, variable=var7, onvalue=m_on7, offvalue=checkbox_off).grid(row=r, column=c1, sticky=W)
+        Checkbutton(t, text=l_on7, variable=leg7, onvalue=l_on7, offvalue=checkbox_off).grid(row=r, column=c2, sticky=W)
         r += 1
 
-        # # process button
+        # process button
         Button(t, text="Add selected", command=lambda: self.add_selected([var1.get(),var2.get(),var3.get(),var4.get(),
                                                                           var5.get(),var6.get(),var7.get()],
                                                                          [leg1.get(),leg2.get(),leg3.get(),leg4.get(),
-                                                                          leg5.get(),leg6.get(),leg7.get()]
-                                                                        , t)).grid(row=r, column=c1, sticky=W)
+                                                                          leg5.get(),leg6.get(),leg7.get()],
+                                                                         t)).grid(row=r, column=c1, sticky=W)
 
     def add_selected(self, method_list: [str], functions_list: [str], win: Toplevel):
         # load values in the old code list
@@ -175,26 +170,6 @@ class CodeRefactor:
 
     def load_old_list(self):
         self.old_code_list = ["fna$", "fnax$", "fnas$", "fnudate$", "fnpdate$", "fnp$", "fnu$"]
-
-    def load_lists(self):
-        # TODO deprecated?
-        # load the old code list
-        print("We will begin adding words for searching.\n"
-              "WARNING!!\n"
-              "         Be careful of your inputs. If you make a mistake, you will have to start over from the "
-                        "beginning AFTER loading the rest of the words.\n"
-              "         Also, this algorithm is designed for a case insensitive language.")
-        for x in range(0, self.limit):
-            print("Enter group number " + str(x + 1) + " of " + str(self.limit))
-            old = input("Enter old code piece to be found\n"
-                        "::  ")
-            self.old_code_list.append(old)
-            new = input("Enter what this code will be replaced with\n"
-                        "::  ")
-            self.new_code_list.append(new)
-            # setup this dictionary key with a default array as its value
-            key = new
-            self.replacement_dict.setdefault(key, [])
 
     def process_words_in_directories(self):
         if self.old_code_list and self.new_code_list:
@@ -248,30 +223,6 @@ class CodeRefactor:
             for val in value:
                 print("     " + val)
 
-    def handle_selection(self, user_choice: int) -> bool:
-        status = True
-        if user_choice == 1:
-            # request source directory from user
-            if self.request_directory(0):
-                print("Input the destination directory if you haven't set it yet.")
-        elif user_choice == 2:
-            # request destination directory from user
-            if self.request_directory(1):
-                print("Now input the source directory if you haven't set it yet.")
-        elif user_choice == 3:
-            # request text to replace
-            self.set_word_associations()
-        elif user_choice == 4:
-            # process the lists
-            self.process_words_in_directories()
-        elif user_choice == 5:
-            # quit the "menu"
-            status = False
-        else:
-            print("This selection isn't in the menu.\n"
-                  "Try again.")
-        return status
-
     def print_all_lists(self):
         if self.limit > 0:
             for x in range(0, self.limit):
@@ -282,30 +233,7 @@ class CodeRefactor:
                   "Run option 3 first.")
 
     def run_menu(self):
-        """ Continuous loop for printing the menu """
-        running = True
         self.tk.mainloop()
-        # try:
-        #     while running:
-        #         print("1.   Setup source directory")
-        #         print("2.   Setup destination directory")
-        #         print("3.   Create lists of find/replace code pieces")
-        #         print("4.   Process with current settings")
-        #         print("5.   Quit")
-        #         user_choice = input("Make selection\n"
-        #                             "::  ")
-        #         try:
-        #             user_choice = int(user_choice)
-        #         except ValueError:
-        #             print("This choice must be an integer value. Try again...")
-        #         running = self.handle_selection(user_choice)
-        #         print()
-        # except Exception:
-        #     print("Unknown error occurred.\n"
-        #           "Suggest running debugger.\n"
-        #           "\n"
-        #           "Quit Program (SUGGESTED)\n"
-        #           "::  ")
 
     def main(self):
         self.run_menu()
