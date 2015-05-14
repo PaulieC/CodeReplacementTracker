@@ -2,7 +2,7 @@
 __author__ = 'intern1'
 
 
-class window:
+class Window:
 
     def __init__(self):
         self.line_declared = -1
