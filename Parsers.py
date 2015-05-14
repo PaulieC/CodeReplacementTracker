@@ -26,4 +26,5 @@ class window_parser:
     def load_tokens(self) -> None:
         window_name = re.compile("W" + "\w*\W*" + ":" )
         subroutine = re.compile("gosub" + "\s*\w*\W*")
-        self.window_tokens = [window_name, subroutine]
+        end_window = re.compile("(?i)return\s*")
+        self.window_tokens = [window_name, subroutine, end_window]
