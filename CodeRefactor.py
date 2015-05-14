@@ -32,7 +32,7 @@ class CodeRefactor:
         self.limit = -1
         self.path_list = ["", ""]
 
-    def load_buttons(self):
+    def load_buttons(self) -> None:
         self.source_dir_button = Button(self.tk, text="Assign Source File", command=lambda: self.request_directory(0))
         self.source_dir_button.pack()
 
@@ -44,8 +44,6 @@ class CodeRefactor:
 
         self.process_words_button = Button(self.tk, text="Process Selections", command=self.process_words_in_directories)
         self.process_words_button.pack()
-
-
 
     def verify_directory(self, directory: str) -> bool:
         file_location_exists = os.path.exists(directory)
@@ -62,7 +60,7 @@ class CodeRefactor:
             print("The directory doesn't exist! Check your location and/or check your spelling.")
         return success
 
-    def set_word_associations(self):
+    def set_word_associations(self) -> None:
         t = Toplevel()
         t.title("New Window")
 
@@ -149,7 +147,7 @@ class CodeRefactor:
                                                                           leg5.get(),leg6.get(),leg7.get()],
                                                                          t)).grid(row=r, column=c1, sticky=W)
 
-    def add_selected(self, method_list: [str], functions_list: [str], win: Toplevel):
+    def add_selected(self, method_list: [str], functions_list: [str], win: Toplevel) -> None:
         # load values in the old code list
         self.load_old_list()
         i = 0
@@ -168,10 +166,10 @@ class CodeRefactor:
         self.limit = len(self.old_code_list)
         win.destroy()
 
-    def load_old_list(self):
+    def load_old_list(self) -> None:
         self.old_code_list = ["fna$", "fnax$", "fnas$", "fnudate$", "fnpdate$", "fnp$", "fnu$"]
 
-    def process_words_in_directories(self):
+    def process_words_in_directories(self) -> None:
         if self.old_code_list and self.new_code_list:
             if self.path_list[0] and self.path_list[1]:
                 print("Locating words in file of source directory...")
@@ -212,18 +210,18 @@ class CodeRefactor:
         else:
             print("The lists are empty. Run option 4 before trying to process.")
 
-    def clear_dictionary(self):
+    def clear_dictionary(self) -> None:
        for key in self.replacement_dict:
            self.replacement_dict[key] = []
 
-    def print_dict(self):
+    def print_dict(self) -> None:
         for key in self.replacement_dict:
             value = self.replacement_dict.get(key)
             print(key + "::")
             for val in value:
                 print("     " + val)
 
-    def print_all_lists(self):
+    def print_all_lists(self) -> None:
         if self.limit > 0:
             for x in range(0, self.limit):
                 print(self.old_code_list[x] + " :: " + self.new_code_list[x])
@@ -232,8 +230,8 @@ class CodeRefactor:
             print("Your lists are empty at this time.\n"
                   "Run option 3 first.")
 
-    def run_menu(self):
+    def run_menu(self) -> None:
         self.tk.mainloop()
 
-    def main(self):
+    def main(self) -> None:
         self.run_menu()
