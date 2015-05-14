@@ -5,6 +5,9 @@ value of a line and the following line state(s)
 """
 __author__ = 'PaulieC'
 
+# imports
+import re
+
 
 class window_parser:
 
@@ -12,9 +15,14 @@ class window_parser:
         self.curr_state = -1
         self.window_list = []
         self.window_tokens = []
+        self.load_tokens()
 
     def window_parse(self, line: str) -> bool:
         pass
 
     def state(self, line: str) -> int:
         pass
+
+    def load_tokens(self) -> None:
+        window_name = re.compile("W" + "\w*\W*" + ":" )
+        self.window_tokens = [""]
