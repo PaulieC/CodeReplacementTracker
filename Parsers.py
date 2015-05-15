@@ -125,5 +125,6 @@ class SubroutineParser:
         self.subroutine_name = re.compile("[^\s]\w*" + ":" + "\s*") # matches any string that doesn't begin with a
                                                                     # space and does end with a colon
         self.characters = re.compile("(?i)(?!return)^.*")           # match any character not a return string
-        self.gosub = re.compile("[\w + \W]*" + "(?i)gosub" + "[\w + \W]*")  # matches a line that contains a gosub
-        self.goto = re.compile("[\w + \W]*" + "(?i)goto" + "[\w + \W]*")    # matches a line that contains a goto
+        self.gosub = re.compile("[\w + \W]*" + r"(?i)gosub\b" + "[\w + \W]*")  # matches a line that contains a gosub
+        self.goto = re.compile("[\w + \W]*" + r"(?i)goto\b" + "[\w + \W]*")    # matches a line that contains a goto
+        self.exitto = re.compile("[\w + \W]*" + r"(?i)exitto\b" + "[\w + \W]*")
