@@ -121,10 +121,22 @@ class SubroutineParser:
         else:
             return False
 
+    def state_0(self, line: str, line_num: str) -> bool:
+        if self.subroutine_name.match(line):
+            # in state 0, we are only looking for the subroutine name before heading into a new state
+            self.state = 1
+            return self.state_1(line, line_num)
+        else:
+            return False
+
+    def state_1(self, line: str, line_num: str) -> bool:
+        pass
+
     def load_tokens(self):
         self.subroutine_name = re.compile("[^\s]\w*" + ":" + "\s*") # matches any string that doesn't begin with a
                                                                     # space and does end with a colon
-        self.characters = re.compile("(?i)(?!return)^.*")           # match any character not a return string
-        self.gosub = re.compile("[\w + \W]*" + r"(?i)gosub\b" + "[\w + \W]*")  # matches a line that contains a gosub
-        self.goto = re.compile("[\w + \W]*" + r"(?i)goto\b" + "[\w + \W]*")    # matches a line that contains a goto
-        self.exitto = re.compile("[\w + \W]*" + r"(?i)exitto\b" + "[\w + \W]*")
+        self.characters = re.compile("(?i)(?!return)^.*")   # match any character not a return string
+        self.gosub = re.compile("[\w + \W]*" + r"(?i)gosub\b" + "[\w + \W]*")   # matches a line that contains a gosub
+        self.goto = re.compile("[\w + \W]*" + r"(?i)goto\b" + "[\w + \W]*") # matches a line that contains a goto
+        self.exitto = re.compile("[\w + \W]*" + r"(?i)exitto\b" + "[\w + \W]*") #
+        self.end_routine = re.compile(r"(?i)return\b\s*")   #
