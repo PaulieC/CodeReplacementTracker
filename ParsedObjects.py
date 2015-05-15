@@ -44,3 +44,69 @@ class Window:
             return True
         except Exception:
             return False
+
+class Subroutine:
+
+    def __init__(self):
+        self.line_declared = -1
+        self.line_end = -1
+        self.gosub_lines = []
+        self.goto_lines = []
+        self.exitto_lines = []
+        self.subroutine_name = ""
+
+    def set_line_dec(self, num: int) -> bool:
+        try:
+            self.line_declared = num
+            return True
+        except Exception:
+            return False
+
+    def set_line_ret(self, num: int) -> bool:
+        try:
+            self.line_end = num
+            return True
+        except Exception:
+            return False
+
+    def add_gosub(self, line: int, val: str) -> bool:
+        try:
+            to_split = val
+            new_line = [-1]
+            while new_line:
+                new_line = to_split.split(" ", 1)
+                if new_line[0].lower() == "gosub":
+                    temp = new_line[1].split(" ", 1)
+                    self.gosub_lines.append([line, temp[0]])
+
+                to_split = new_line[1]
+        except Exception:
+            return False
+
+    def add_goto(self, line: int, val: str) -> bool:
+        try:
+            to_split = val
+            new_line = [-1]
+            while new_line:
+                new_line = to_split.split(" ", 1)
+                if new_line[0].lower() == "goto":
+                    temp = new_line[1].split(" ", 1)
+                    self.goto_lines.append([line, temp[0]])
+
+                to_split = new_line[1]
+        except Exception:
+            return False
+
+    def add_exit(self, line: int, val: str) -> bool:
+        try:
+            to_split = val
+            new_line = [-1]
+            while new_line:
+                new_line = to_split.split(" ", 1)
+                if new_line[0].lower() == "exitto":
+                    temp = new_line[1].split(" ", 1)
+                    self.goto_lines.append([line, temp[0]])
+
+                to_split = new_line[1]
+        except Exception:
+            return False
