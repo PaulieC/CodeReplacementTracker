@@ -8,6 +8,7 @@ __author__ = 'PaulieC'
 # imports
 import re
 from CodeReplacementTracker.ParsedObjects import Window
+from CodeReplacementTracker.ParsedObjects import Subroutine
 
 
 class WindowParser:
@@ -94,3 +95,32 @@ class WindowParser:
 
     def get_state(self) -> int:
         return self.state
+
+class SubroutineParser:
+
+    def __init__(self):
+        self.state = 0
+        self.subroutine_list = [Subroutine()]
+        self.load_tokens()
+
+    def parse(self, line: str, line_num: int) -> bool:
+        return self.determine_state(line, line_num)
+
+    def determine_state(self, line: str, line_num: int) -> int:
+        # perform initial check for line
+        if self.state == 0:
+            return self.state_0(line, line_num)
+        elif self.state == 1:
+            return self.state_1(line, line_num)
+        elif self.state == 2:
+            return self.state_2(line, line_num)
+        elif self.state == 3:
+            return self.state_3(line, line_num)
+        elif self.state == 4:
+            return self.state_4(line, line_num)
+        else:
+            return False
+
+    def load_tokens(self):
+        self.subroutine_name = re.compile("[^\s]\w*" + ":" + "\s*") # matches any string that doesn't begin with a
+                                                                    # space and does end with a colon
