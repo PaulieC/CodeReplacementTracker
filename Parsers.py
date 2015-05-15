@@ -126,3 +126,4 @@ class SubroutineParser:
                                                                     # space and does end with a colon
         self.characters = re.compile("(?i)(?!return)^.*")           # match any character not a return string
         self.gosub = re.compile("[\w + \W]*" + "(?i)gosub" + "[\w + \W]*")  # matches a line that contains a gosub
+        self.goto = re.compile("[\w + \W]*" + "(?i)goto" + "[\w + \W]*")    # matches a line that contains a goto
