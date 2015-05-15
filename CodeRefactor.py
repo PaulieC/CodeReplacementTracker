@@ -13,6 +13,7 @@ import os
 from tkinter import *
 from tkinter.filedialog import askopenfilename
 from CodeReplacementTracker.Parsers import WindowParser
+from CodeReplacementTracker.Parsers import SubroutineParser
 
 
 class CodeRefactor:
@@ -34,6 +35,7 @@ class CodeRefactor:
         self.limit = -1
         self.path_list = ["", ""]
         self.window_parser = WindowParser()
+        self.subroutine_parser = SubroutineParser()
 
     def load_buttons(self) -> None:
         self.source_dir_button = Button(self.tk, text="Assign Source File", command=lambda: self.request_directory(0))
@@ -182,9 +184,12 @@ class CodeRefactor:
                 try:
                     with open(self.path_list[0], "r") as in_file:
                         for line_num, line in enumerate(in_file, 1):
-                            if self.window_parser.parse(line, line_num):
+                            # if self.window_parser.parse(line, line_num):
+                            #     print(str(line_num) + "\t" + line)
+                            #     print(str(self.window_parser.get_state()))
+                            if self.subroutine_parser.parse(line, line_num):
                                 print(str(line_num) + "\t" + line)
-                                print(str(self.window_parser.get_state()))
+                                print(str(self.subroutine_parser.get_state()))
                         in_file.close()
                 except FileNotFoundError:
                     print("ERROR: Original source file wasn't found.\n"

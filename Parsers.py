@@ -100,7 +100,7 @@ class SubroutineParser:
 
     def __init__(self):
         self.state = 0
-        self.subroutine_list = [Subroutine()]
+        self.subroutine_list = []
         self.load_tokens()
 
     def parse(self, line: str, line_num: int) -> bool:
@@ -124,17 +124,21 @@ class SubroutineParser:
     def state_0(self, line: str, line_num: int) -> bool:
         self.state = 0
         if self.subroutine_name.match(line):
-            # in state 0, we are only looking for the subroutine name before heading into a new state
             return self.state_1(line, line_num)
         else:
             return False
 
     def state_1(self, line: str, line_num: int) -> bool:
         self.state = 1
-        if self.end_routine.match(line):
+        if self.subroutine_name.match(line):
+            subroutine = Subroutine()
+            subroutine.set_name(line)
+            subroutine.set_line_dec(line_num)
+            self.subroutine_list.append(subroutine)
+            self.state = 4
+            return True
+        elif self.end_routine.match(line):
             return self.state_3(line, line_num)
-        elif self.subroutine_name.match(line):
-            return self.state_4(line, line_num)
         else:
             return self.state_2(line, line_num)
 
@@ -143,13 +147,23 @@ class SubroutineParser:
         if self.end_routine.match(line):
             return self.state_3(line, line_num)
         elif self.subroutine_name.match(line):
+            self.subroutine_list[len(self.subroutine_list) - 1].add_subroutine(line_num, line)
             return self.state_4(line, line_num)
+        elif self.gosub.match(line):
+            return self.subroutine_list[len(self.subroutine_list) - 1].add_gosub(line_num, line)
+        elif self.goto.match(line):
+            return self.subroutine_list[len(self.subroutine_list) - 1].add_goto(line_num, line)
+        elif self.exitto.match(line):
+            return self.subroutine_list[len(self.subroutine_list) - 1].add_exit(line_num, line)
         else:
             return True
 
     def state_3(self, line: str, line_num: int) -> bool:
         self.state = 3
-        if self.subroutine_name.match(line):
+        if self.end_routine.match(line):
+            self.subroutine_list[len(self.subroutine_list) - 1].set_line_ret(line_num)
+            return True
+        elif self.subroutine_name.match(line):
             return self.state_1(line, line_num)
         elif self.end_routine.match(line):
             return True
@@ -161,7 +175,7 @@ class SubroutineParser:
         if self.end_routine.match(line):
             return self.state_3(line, line_num)
         elif self.subroutine_name.match(line):
-            return True
+            return self.subroutine_list[len(self.subroutine_list) - 1].add_subroutine(line_num, line)
         else:
             return self.state_2(line, line_num)
 
