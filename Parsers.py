@@ -121,16 +121,49 @@ class SubroutineParser:
         else:
             return False
 
-    def state_0(self, line: str, line_num: str) -> bool:
+    def state_0(self, line: str, line_num: int) -> bool:
+        self.state = 0
         if self.subroutine_name.match(line):
             # in state 0, we are only looking for the subroutine name before heading into a new state
-            self.state = 1
             return self.state_1(line, line_num)
         else:
             return False
 
-    def state_1(self, line: str, line_num: str) -> bool:
-        pass
+    def state_1(self, line: str, line_num: int) -> bool:
+        self.state = 1
+        if self.end_routine.match(line):
+            return self.state_3(line, line_num)
+        elif self.subroutine_name.match(line):
+            return self.state_4(line, line_num)
+        else:
+            return self.state_2(line, line_num)
+
+    def state_2(self, line: str, line_num: int) -> bool:
+        self.state = 2
+        if self.end_routine.match(line):
+            return self.state_3(line, line_num)
+        elif self.subroutine_name.match(line):
+            return self.state_4(line, line_num)
+        else:
+            return True
+
+    def state_3(self, line: str, line_num: int) -> bool:
+        self.state = 3
+        if self.subroutine_name.match(line):
+            return self.state_1(line, line_num)
+        elif self.end_routine.match(line):
+            return True
+        else:
+            return self.state_0(line, line_num)
+
+    def state_4(self, line: str, line_num: int) -> bool:
+        self.state = 4
+        if self.end_routine.match(line):
+            return self.state_3(line, line_num)
+        elif self.subroutine_name.match(line):
+            return True
+        else:
+            return self.state_2(line, line_num)
 
     def load_tokens(self):
         self.subroutine_name = re.compile("[^\s]\w*" + ":" + "\s*") # matches any string that doesn't begin with a
@@ -138,5 +171,8 @@ class SubroutineParser:
         self.characters = re.compile("(?i)(?!return)^.*")   # match any character not a return string
         self.gosub = re.compile("[\w + \W]*" + r"(?i)gosub\b" + "[\w + \W]*")   # matches a line that contains a gosub
         self.goto = re.compile("[\w + \W]*" + r"(?i)goto\b" + "[\w + \W]*") # matches a line that contains a goto
-        self.exitto = re.compile("[\w + \W]*" + r"(?i)exitto\b" + "[\w + \W]*") #
-        self.end_routine = re.compile(r"(?i)return\b\s*")   #
+        self.exitto = re.compile("[\w + \W]*" + r"(?i)exitto\b" + "[\w + \W]*") # matches a line that contains an exitto
+        self.end_routine = re.compile(r"\s*(?i)return\b\s*")   # matches a line that is the return statement
+
+    def get_state(self) -> int:
+        return self.state
