@@ -12,6 +12,7 @@ __author__ = 'PaulieC'
 import os
 from tkinter import *
 from tkinter.filedialog import askopenfilename
+from CodeReplacementTracker.Parsers import WindowParser
 
 
 class CodeRefactor:
@@ -21,6 +22,7 @@ class CodeRefactor:
         # variables for the gui to perform as expected
         self.tk = Tk()
         self.tk.title("Testing the title")
+        self.tk.minsize(300, 300)
         self.load_buttons()
         self.m_vars = []
         self.l_vars = []
@@ -31,6 +33,7 @@ class CodeRefactor:
         self.replacement_dict = {}
         self.limit = -1
         self.path_list = ["", ""]
+        self.window_parser = WindowParser()
 
     def load_buttons(self) -> None:
         self.source_dir_button = Button(self.tk, text="Assign Source File", command=lambda: self.request_directory(0))
@@ -44,6 +47,9 @@ class CodeRefactor:
 
         self.process_words_button = Button(self.tk, text="Process Selections", command=self.process_words_in_directories)
         self.process_words_button.pack()
+
+        self.test_parsers_button = Button(self.tk, text="Test Parsers", command=self.test_parsers)
+        self.test_parsers_button.pack()
 
     def verify_directory(self, directory: str) -> bool:
         file_location_exists = os.path.exists(directory)
@@ -169,6 +175,23 @@ class CodeRefactor:
     def load_old_list(self) -> None:
         self.old_code_list = ["fna$", "fnax$", "fnas$", "fnudate$", "fnpdate$", "fnp$", "fnu$"]
 
+    def test_parsers(self):
+        if self.path_list[0]:
+                # begin a window parse loop
+                print("Parsing for Window")
+                try:
+                    with open(self.path_list[0], "r") as in_file:
+                        for line_num, line in enumerate(in_file, 1):
+                            if self.window_parser.parse(line, line_num):
+                                print(str(line_num) + "\t" + line)
+                                print(str(self.window_parser.get_state()))
+                        in_file.close()
+                except FileNotFoundError:
+                    print("ERROR: Original source file wasn't found.\n"
+                          "Physically check directory.")
+        else:
+            print("The source directory hasn't been set.")
+
     def process_words_in_directories(self) -> None:
         if self.old_code_list and self.new_code_list:
             if self.path_list[0] and self.path_list[1]:
@@ -208,7 +231,7 @@ class CodeRefactor:
                 print("The directories haven't been set and/or verified.\n"
                       "Run option 1 and/or 2.")
         else:
-            print("The lists are empty. Run option 4 before trying to process.")
+            print("Lists are empty. Select the text replacement before running this option.")
 
     def clear_dictionary(self) -> None:
        for key in self.replacement_dict:
