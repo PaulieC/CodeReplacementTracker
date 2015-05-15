@@ -180,7 +180,7 @@ class SubroutineParser:
             return self.state_2(line, line_num)
 
     def load_tokens(self):
-        self.subroutine_name = re.compile("[^\s]\w*" + ":" + "\s*") # matches any string that doesn't begin with a
+        self.subroutine_name = re.compile("[^\s + g]\w*" + ":" + "\s*") # matches any string that doesn't begin with a
                                                                     # space and does end with a colon
         self.characters = re.compile("(?i)(?!return)^.*")   # match any character not a return string
         self.gosub = re.compile("[\w + \W]*" + r"(?i)gosub\b" + "[\w + \W]*")   # matches a line that contains a gosub
