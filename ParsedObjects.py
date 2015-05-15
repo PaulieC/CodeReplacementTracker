@@ -7,7 +7,7 @@ class Window:
     def __init__(self):
         self.line_declared = -1
         self.line_returned = -1
-        self.gosub_lines = {}
+        self.gosub_lines = []
         self.window_name = ""
 
     def set_line_dec(self, num: int) -> bool:
@@ -24,13 +24,17 @@ class Window:
         except Exception:
             return False
 
-    def add_gosub(self, key: int, val: str) -> bool:
+    def add_gosub(self, line: int, val: str) -> bool:
         try:
-            if key in self.gosub_lines:
-                return False
-            else:
-                self.gosub_lines[key] = val
-                return True
+            to_split = val
+            new_line = [-1]
+            while new_line:
+                new_line = to_split.split(" ", 1)
+                if new_line[0].lower() == "gosub":
+                    temp = new_line[1].split(" ", 1)
+                    self.gosub_lines.append([line, temp[0]])
+
+                to_split = new_line[1]
         except Exception:
             return False
 

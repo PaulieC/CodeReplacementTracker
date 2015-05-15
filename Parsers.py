@@ -88,7 +88,7 @@ class WindowParser:
 
     def load_tokens(self) -> None:
         self.window_name    = re.compile("W" + "\w*\W*" + ":" ) # match string that starts with W and ends with :
-        self.subroutine     = re.compile("gosub" + "\s*\w*\W*") # match string that starts with gosub
+        self.subroutine     = re.compile("[\w + \W]*" + "(?i)gosub" + "[\s + \w + \W]*") # match string that contain gosub
         self.end_window     = re.compile("(?i)return\s*")       # match string that is only a return
         self.characters     = re.compile("(?i)(?!return)^.*")   # match any character that doesn't start with return
 
