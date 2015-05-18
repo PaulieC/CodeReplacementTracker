@@ -108,7 +108,7 @@ class SubroutineParser:
 
     def determine_state(self, line: str, line_num: int) -> int:
         # perform initial check for line
-        if self.state == 0:
+        if self.state   == 0:
             return self.state_0(line, line_num)
         elif self.state == 1:
             return self.state_1(line, line_num)
@@ -179,14 +179,22 @@ class SubroutineParser:
         else:
             return self.state_2(line, line_num)
 
-    def load_tokens(self):
-        self.subroutine_name = re.compile("[^\s + g]\w*" + ":" + "\s*") # matches any string that doesn't begin with a
-                                                                    # space and does end with a colon
-        self.characters = re.compile("(?i)(?!return)^.*")   # match any character not a return string
-        self.gosub = re.compile("[\w + \W]*" + r"(?i)gosub\b" + "[\w + \W]*")   # matches a line that contains a gosub
-        self.goto = re.compile("[\w + \W]*" + r"(?i)goto\b" + "[\w + \W]*") # matches a line that contains a goto
-        self.exitto = re.compile("[\w + \W]*" + r"(?i)exitto\b" + "[\w + \W]*") # matches a line that contains an exitto
-        self.end_routine = re.compile(r"\s*(?i)return\b\s*")   # matches a line that is the return statement
+    def load_tokens(self) -> None:
+        """
+        subroutine_name: TODO
+        characters: Matches all strings that do not begin with the whole words: return, exit, bye, or release. Case is
+                    ignored when checking for matches.
+        gosub: Matches all strings that contain the whole word gosub. Case is ignored when checking for matches.
+        goto: Matches all strings that contain the whole word goto. Case is ignored when checking for matches.
+        exitto: Matches all strings that contain the whole word exitto. Case is ignored when checking for matches.
+        end_routine: TODO
+        """
+        self.subroutine_name = re.compile("[^\s + g]\w*" + ":" + "\s*")
+        self.characters = re.compile(r"(?i)(?!return\b)^(?!exit\b)^(?!bye\b)^(?!release\b)^.*")
+        self.gosub = re.compile("[\w + \W]*" + r"(?i)gosub\b" + "[\w + \W]*")
+        self.goto = re.compile("[\w + \W]*" + r"(?i)goto\b" + "[\w + \W]*")
+        self.exitto = re.compile("[\w + \W]*" + r"(?i)exitto\b" + "[\w + \W]*")
+        self.end_routine = re.compile(r"\s*(?i)return\b\s*")
 
     def get_state(self) -> int:
         return self.state
