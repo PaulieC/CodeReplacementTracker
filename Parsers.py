@@ -98,10 +98,16 @@ class WindowParser:
             return False
 
     def load_tokens(self) -> None:
-        self.window_name    = re.compile("W" + "\w*\W*" + ":" ) # match string that starts with W and ends with :
-        self.subroutine     = re.compile("[\w + \W]*" + "(?i)gosub" + "[\s + \w + \W]*") # match string that contain gosub
-        self.end_window     = re.compile("(?i)return\s*")       # match string that is only a return
-        self.characters     = re.compile("(?i)(?!return)^.*")   # match any character that doesn't start with return
+        """
+        window_name: Matches all strings that begin with W1 and end with :
+        subroutine:
+        end_window:
+        characters:
+        """
+        self.window_name    = re.compile("^\s*(?i)W1\w*:\s*$")
+        self.subroutine     = re.compile("[\w + \W]*" + "(?i)gosub" + "[\s + \w + \W]*")
+        self.end_window     = re.compile("(?i)return\s*")
+        self.characters     = re.compile("(?i)(?!return)^.*")
 
     def get_state(self) -> int:
         return self.state
@@ -228,12 +234,12 @@ class SubroutineParser:
         exitto: Matches all strings that contain the whole word exitto. Case is ignored when checking for matches.
         end_routine: Matches any string that starts/ends with a series of spaces and is return, bye, release, or exit.
         """
-        self.subroutine_name = re.compile(r"^\s*(?i)(?!(gb_|W1).*)\w+:\s*$")
-        self.characters = re.compile(r"^(?i)(?!.*(return|bye|release|exit)\b).*$")
-        self.gosub = re.compile(r"^.*(?i)gosub\b.*$")
-        self.goto = re.compile(r"^.*(?i)goto\b.*$")
-        self.exitto = re.compile(r"^.*(?i)exitto\b.*$")
-        self.end_routine = re.compile(r"^\s*(?i)(return|bye|release|exit)\b\s*$")
+        self.subroutine_name    = re.compile(r"^\s*(?i)(?!(gb_|W1).*)\w+:\s*$")
+        self.characters         = re.compile(r"^(?i)(?!.*(return|bye|release|exit)\b).*$")
+        self.gosub              = re.compile(r"^.*(?i)gosub\b.*$")
+        self.goto               = re.compile(r"^.*(?i)goto\b.*$")
+        self.exitto             = re.compile(r"^.*(?i)exitto\b.*$")
+        self.end_routine        = re.compile(r"^\s*(?i)(return|bye|release|exit)\b\s*$")
 
     def get_state(self) -> int:
         return self.state
