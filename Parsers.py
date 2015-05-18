@@ -181,7 +181,10 @@ class SubroutineParser:
 
     def load_tokens(self) -> None:
         """
-        subroutine_name: TODO
+        subroutine_name: Matches all strings that can have any number of spaces/tabs, do not start with gb__, and must
+                         end in a colon before any number of spaces/tabs. This will not match a colon by itself or
+                         a colon with a number of spaces before it; it must have at least one character before the
+                         colon.
         characters: Matches all strings that do not begin with the whole words: return, exit, bye, or release. Case is
                     ignored when checking for matches.
         gosub: Matches all strings that contain the whole word gosub. Case is ignored when checking for matches.
@@ -189,8 +192,8 @@ class SubroutineParser:
         exitto: Matches all strings that contain the whole word exitto. Case is ignored when checking for matches.
         end_routine: TODO
         """
-        self.subroutine_name = re.compile("\s*(?i)(?!gb__)[\w\W]*:\s*")
-        self.characters = re.compile(r"(^(?!.*(return|bye|release|exit)\b).*$)")
+        self.subroutine_name = re.compile(r"^\s*(?i)(?!gb__.*)\w+:\s*$")
+        self.characters = re.compile(r"^(?i)(?!.*(return|bye|release|exit)\b).*$")
         self.gosub = re.compile("[\w + \W]*" + r"(?i)gosub\b" + "[\w,\W]*")
         self.goto = re.compile("[\w + \W]*" + r"(?i)goto\b" + "[\w + \W]*")
         self.exitto = re.compile("[\w + \W]*" + r"(?i)exitto\b" + "[\w + \W]*")
