@@ -7,16 +7,16 @@ __author__ = 'PaulieC'
 
 # imports
 import re
+from CodeReplacementTracker.Parser import Parser
 from CodeReplacementTracker.ParsedObjects import Window
 from CodeReplacementTracker.ParsedObjects import Subroutine
 
 
-class WindowParser:
+class WindowParser(Parser):
 
     def __init__(self):
-        self.state = 0 # start state
+        super().__init__()
         self.window_list = [Window()]
-        self.load_tokens()
 
     def parse(self, line: str, line_num: int) -> bool:
         return self.determine_state(line, line_num)
@@ -114,12 +114,11 @@ class WindowParser:
         return self.state
 
 
-class SubroutineParser:
+class SubroutineParser(Parser):
 
     def __init__(self):
-        self.state = 0
+        super().__init__()
         self.subroutine_list = []
-        self.load_tokens()
 
     def parse(self, line: str, line_num: int) -> bool:
         return self.determine_state(line, line_num)

@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'intern1'
+__author__ = 'PaulieC'
 
 
 class Window:
