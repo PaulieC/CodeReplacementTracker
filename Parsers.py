@@ -23,7 +23,7 @@ class WindowParser:
 
     def determine_state(self, line: str, line_num: int) -> int:
         # perform initial check for line
-        if self.state == 0:
+        if self.state   == 0:
             return self.state_0(line, line_num)
         elif self.state == 1:
             return self.state_1(line, line_num)
@@ -35,10 +35,17 @@ class WindowParser:
             return False
 
     def state_0(self, line: str, line_num: int) -> bool:
+        self.state = 0
         if self.window_name.match(line):
             self.state = 1
-            return self.state_1(line, line_num)
+            window = Window()
+            self.window_list.append(window)
+            self.window_list[len(self.window_list) - 1].set_name(line)
+            self.window_list[len(self.window_list) - 1].set_line_dec(line_num)
+            print("Window current state:\t" + str(self.state))
+            return True
         else:
+            print("Window current state:\t" + str(self.state))
             return False
 
 
@@ -47,44 +54,47 @@ class WindowParser:
         This state is true if the line is the heading for a window gui. This will move to state_2
         to search for the following lines if true.
         """
-        if self.window_name.match(line):
-            # we are in a window block so initialize a window here and add it to the list
-            window = Window()
-            self.window_list.append(window)
-            self.window_list[len(self.window_list) - 1].set_name(line)
-            self.window_list[len(self.window_list) - 1].set_line_dec(line_num)
+        if self.end_window.match(line):
+            self.state = 3
+            self.window_list[len(self.window_list) - 1].set_line_ret(line_num)
+            print("Window current state:\t" + str(self.state))
             return True
-        elif self.subroutine.match(line) or self.characters.match(line):
-            return self.state_2(line, line_num)
-        elif self.end_window.match(line):
-            return self.state_3(line, line_num)
         else:
-            return False
+            self.state = 2
+            print("Window current state:\t" + str(self.state))
+            self.state_2(line, line_num)
 
     def state_2(self, line: str, line_num: int) -> bool:
         """
         Checks the line to see if it matches any character strings that don't end the window.
         """
-        self.state = 2
         if self.subroutine.match(line):
             self.window_list[len(self.window_list) - 1].add_gosub(line_num, line)
+            print("Window current state:\t" + str(self.state))
             return True
         elif self.characters.match(line):
+            print("Window current state:\t" + str(self.state))
             return True
         elif self.end_window.match(line):
-            return self.state_3(line, line_num)
+            self.state = 3
+            self.window_list[len(self.window_list) - 1].set_line_ret(line_num)
+            print("Window current state:\t" + str(self.state))
+            return True
         else:
             raise Exception("regex doesn't recognize this line: " + line)
 
     def state_3(self, line: str, line_num: int) -> bool:
-        self.state = 3
-        if self.end_window.match(line):
-            self.window_list[len(self.window_list) - 1].set_line_ret(line_num)
+        if self.window_name.match(line):
+            self.state = 1
+            window = Window()
+            self.window_list.append(window)
+            self.window_list[len(self.window_list) - 1].set_name(line)
+            self.window_list[len(self.window_list) - 1].set_line_dec(line_num)
+            print("Window current state:\t" + str(self.state))
             return True
-        elif self.window_name.match(line):
-            return self.state_1(line, line_num)
         else:
             self.state = 0
+            print("Window current state:\t" + str(self.state))
             return False
 
     def load_tokens(self) -> None:
@@ -130,38 +140,38 @@ class SubroutineParser:
             subroutine.set_line_dec(line_num)
             self.subroutine_list.append(subroutine)
             self.state = 1
-            print("Current state:\t" + str(self.state))
+            print("Subroutine current state:\t" + str(self.state))
             return True
         else:
-            print("Current state:\t" + str(self.state))
+            print("Subroutine current state:\t" + str(self.state))
             return False
 
     def state_1(self, line: str, line_num: int) -> bool:
         if self.subroutine_name.match(line):
             self.state = 4
-            print("Current state:\t" + str(self.state))
+            print("Subroutine current state:\t" + str(self.state))
             return self.subroutine_list[len(self.subroutine_list) - 1].add_subroutine(line_num, line)
         elif self.end_routine.match(line):
             self.state = 3
-            print("Current state:\t" + str(self.state))
+            print("Subroutine current state:\t" + str(self.state))
             return self.subroutine_list[len(self.subroutine_list) - 1].set_line_ret(line_num)
         else:
             self.state = 2
-            print("Current state:\t" + str(self.state))
+            print("Subroutine current state:\t" + str(self.state))
             return self.sort_characters(line, line_num)
 
 
     def state_2(self, line: str, line_num: int) -> bool:
         if self.end_routine.match(line):
             self.state = 3
-            print("Current state:\t" + str(self.state))
+            print("Subroutine current state:\t" + str(self.state))
             return self.subroutine_list[len(self.subroutine_list) - 1].set_line_ret(line_num)
         elif self.subroutine_name.match(line):
             self.state = 4
-            print("Current state:\t" + str(self.state))
+            print("Subroutine current state:\t" + str(self.state))
             return self.subroutine_list[len(self.subroutine_list) - 1].add_subroutine(line_num, line)
         else:
-            print("Current state:\t" + str(self.state))
+            print("Subroutine current state:\t" + str(self.state))
             return self.sort_characters(line, line_num)
 
     def state_3(self, line: str, line_num: int) -> bool:
@@ -172,27 +182,27 @@ class SubroutineParser:
             subroutine.set_line_dec(line_num)
             self.subroutine_list.append(subroutine)
             self.state = 1
-            print("Current state:\t" + str(self.state))
+            print("Subroutine current state:\t" + str(self.state))
             return True
         elif self.end_routine.match(line):
-            print("Current state:\t" + str(self.state))
+            print("Subroutine current state:\t" + str(self.state))
             return True
         else:
             self.state = 0
-            print("Current state:\t" + str(self.state))
+            print("Subroutine current state:\t" + str(self.state))
             return False
 
     def state_4(self, line: str, line_num: int) -> bool:
         if self.end_routine.match(line):
             self.state = 3
-            print("Current state:\t" + str(self.state))
+            print("Subroutine current state:\t" + str(self.state))
             return self.subroutine_list[len(self.subroutine_list) - 1].set_line_ret(line_num)
         elif self.subroutine_name.match(line):
-            print("Current state:\t" + str(self.state))
+            print("Subroutine current state:\t" + str(self.state))
             return self.subroutine_list[len(self.subroutine_list) - 1].add_subroutine(line_num, line)
         else:
             self.state = 2
-            print("Current state:\t" + str(self.state))
+            print("Subroutine current state:\t" + str(self.state))
             return self.state_2(line, line_num)
 
     def sort_characters(self, line: str, line_num: int) -> bool:
