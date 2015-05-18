@@ -184,10 +184,9 @@ class CodeRefactor:
                 try:
                     with open(self.path_list[0], "r") as in_file:
                         for line_num, line in enumerate(in_file, 1):
-                            # if self.window_parser.parse(line, line_num):
-                            #     print(str(line_num) + "\t" + line)
-                            #     print(str(self.window_parser.get_state()))
-                            if self.subroutine_parser.parse(line, line_num):
+                            if self.window_parser.parse(line, line_num):
+                                print(str(line_num) + "\t" + line)
+                            elif self.subroutine_parser.parse(line, line_num):
                                 print(str(line_num) + "\t" + line)
                         in_file.close()
                 except FileNotFoundError:
