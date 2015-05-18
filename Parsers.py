@@ -48,7 +48,6 @@ class WindowParser(Parser):
             print("Window current state:\t" + str(self.state))
             return False
 
-
     def state_1(self, line: str, line_num: int) -> bool:
         """
         This state is true if the line is the heading for a window gui. This will move to state_2
@@ -165,7 +164,6 @@ class SubroutineParser(Parser):
             self.state = 2
             print("Subroutine current state:\t" + str(self.state))
             return self.sort_characters(line, line_num)
-
 
     def state_2(self, line: str, line_num: int) -> bool:
         if self.end_routine.match(line):

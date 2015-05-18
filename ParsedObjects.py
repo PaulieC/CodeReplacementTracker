@@ -4,6 +4,7 @@ __author__ = 'PaulieC'
 # imports
 from CodeReplacementTracker.ParserDataStructure import ParserDataStructure
 
+
 class Window(ParserDataStructure):
 
     def __init__(self):
@@ -36,6 +37,7 @@ class Window(ParserDataStructure):
             return True
         except Exception:
             return False
+
 
 class Subroutine(ParserDataStructure):
 

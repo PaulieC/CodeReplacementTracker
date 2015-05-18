@@ -19,7 +19,6 @@ class Parser:
     def state_1(self, line: str, line_num: int) -> bool:
         pass
 
-
     def state_2(self, line: str, line_num: int) -> bool:
         pass
 
