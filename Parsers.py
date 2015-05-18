@@ -194,9 +194,9 @@ class SubroutineParser:
         """
         self.subroutine_name = re.compile(r"^\s*(?i)(?!gb__.*)\w+:\s*$")
         self.characters = re.compile(r"^(?i)(?!.*(return|bye|release|exit)\b).*$")
-        self.gosub = re.compile("[\w + \W]*" + r"(?i)gosub\b" + "[\w,\W]*")
-        self.goto = re.compile("[\w + \W]*" + r"(?i)goto\b" + "[\w + \W]*")
-        self.exitto = re.compile("[\w + \W]*" + r"(?i)exitto\b" + "[\w + \W]*")
+        self.gosub = re.compile(r"^.*(?i)gosub\b.*$")
+        self.goto = re.compile(r"^.*(?i)goto\b.*$")
+        self.exitto = re.compile(r"^.*(?i)exitto\b.*$")
         self.end_routine = re.compile(r"\s*(?i)return\b\s*")
 
     def get_state(self) -> int:
