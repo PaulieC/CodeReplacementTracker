@@ -1,14 +1,13 @@
 # coding=utf-8
 __author__ = 'PaulieC'
 
+# imports
+from CodeReplacementTracker.ParserDataStructure import ParserDataStructure
 
-class Window:
+class Window(ParserDataStructure):
 
     def __init__(self):
-        self.line_declared = -1
-        self.line_returned = -1
-        self.gosub_lines = []
-        self.window_name = ""
+        super().__init__()
 
     def set_line_dec(self, num: int) -> bool:
         try:
@@ -38,30 +37,11 @@ class Window:
         except Exception:
             return False
 
-    def set_name(self, name: str) -> bool:
-        try:
-            self.window_name = name
-            return True
-        except Exception:
-            return False
-
-class Subroutine:
+class Subroutine(ParserDataStructure):
 
     def __init__(self):
-        self.line_declared = -1
-        self.line_end = -1
-        self.gosub_lines = []
-        self.goto_lines = []
-        self.exitto_lines = []
+        super().__init__()
         self.subroutine_list = []
-        self.subroutine_name = ""
-
-    def set_line_dec(self, num: int) -> bool:
-        try:
-            self.line_declared = num
-            return True
-        except Exception:
-            return False
 
     def set_line_ret(self, num: int) -> bool:
         try:
@@ -130,8 +110,4 @@ class Subroutine:
         if self.subroutine_list:
             self.subroutine_list[len(self.subroutine_list) - 1].set_line_ret(line - 1)
         self.subroutine_list.append(subroutine)
-        return True
-
-    def set_name(self, name: str) -> bool:
-        self.subroutine_name = name.strip().replace("\n", "").replace(":", "")
         return True
