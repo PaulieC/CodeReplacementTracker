@@ -100,14 +100,15 @@ class WindowParser:
     def load_tokens(self) -> None:
         """
         window_name: Matches all strings that begin with W1 and end with :
-        subroutine:
-        end_window:
-        characters:
+        subroutine: Matches all strings that perform at least on subroutine call by invoking gosub subroutinename
+        end_window: Matches any string that starts/ends with a series of spaces and is return
+        characters: Matches all strings that do not begin with the whole word return. Case is ignored when
+                    checking for matches.
         """
-        self.window_name    = re.compile("^\s*(?i)W1\w*:\s*$")
-        self.subroutine     = re.compile("[\w + \W]*" + "(?i)gosub" + "[\s + \w + \W]*")
-        self.end_window     = re.compile("(?i)return\s*")
-        self.characters     = re.compile("(?i)(?!return)^.*")
+        self.window_name    = re.compile( "^\s*(?i)W1\w*:\s*$")
+        self.subroutine     = re.compile(r"^.*(?i)gosub\b\s+.+$")
+        self.end_window     = re.compile(r"^\s*(?i)return\b\s*$")
+        self.characters     = re.compile(r"^(?i)(?!.*return\b).*$")
 
     def get_state(self) -> int:
         return self.state
