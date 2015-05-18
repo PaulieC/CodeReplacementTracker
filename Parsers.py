@@ -190,14 +190,14 @@ class SubroutineParser:
         gosub: Matches all strings that contain the whole word gosub. Case is ignored when checking for matches.
         goto: Matches all strings that contain the whole word goto. Case is ignored when checking for matches.
         exitto: Matches all strings that contain the whole word exitto. Case is ignored when checking for matches.
-        end_routine: TODO
+        end_routine: Matches any string that starts/ends with a series of spaces and is return, bye, release, or exit.
         """
         self.subroutine_name = re.compile(r"^\s*(?i)(?!gb__.*)\w+:\s*$")
         self.characters = re.compile(r"^(?i)(?!.*(return|bye|release|exit)\b).*$")
         self.gosub = re.compile(r"^.*(?i)gosub\b.*$")
         self.goto = re.compile(r"^.*(?i)goto\b.*$")
         self.exitto = re.compile(r"^.*(?i)exitto\b.*$")
-        self.end_routine = re.compile(r"\s*(?i)return\b\s*")
+        self.end_routine = re.compile(r"^\s*(?i)(return|bye|release|exit)\b\s*$")
 
     def get_state(self) -> int:
         return self.state
