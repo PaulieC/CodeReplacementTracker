@@ -124,20 +124,14 @@ class Subroutine:
             return False
 
     def add_subroutine(self, line: int, val: str) -> bool:
-        try:
-            subroutine = Subroutine()
-            subroutine.set_name(val)
-            subroutine.set_line_dec(line)
-            if self.subroutine_list:
-                self.subroutine_list[len(self.subroutine_list) - 1].set_line_ret(line - 1)
-            self.subroutine_list.append(subroutine)
-            return True
-        except:
-            return False
+        subroutine = Subroutine()
+        subroutine.set_name(val)
+        subroutine.set_line_dec(line)
+        if self.subroutine_list:
+            self.subroutine_list[len(self.subroutine_list) - 1].set_line_ret(line - 1)
+        self.subroutine_list.append(subroutine)
+        return True
 
     def set_name(self, name: str) -> bool:
-        try:
-            self.subroutine_name = name
-            return True
-        except Exception:
-            return False
+        self.subroutine_name = name.strip().replace("\n", "").replace(":", "")
+        return True

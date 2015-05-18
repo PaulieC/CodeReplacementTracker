@@ -218,7 +218,7 @@ class SubroutineParser:
         exitto: Matches all strings that contain the whole word exitto. Case is ignored when checking for matches.
         end_routine: Matches any string that starts/ends with a series of spaces and is return, bye, release, or exit.
         """
-        self.subroutine_name = re.compile(r"^\s*(?i)(?!gb_.*)\w+:\s*$")
+        self.subroutine_name = re.compile(r"^\s*(?i)(?!(gb_|W1).*)\w+:\s*$")
         self.characters = re.compile(r"^(?i)(?!.*(return|bye|release|exit)\b).*$")
         self.gosub = re.compile(r"^.*(?i)gosub\b.*$")
         self.goto = re.compile(r"^.*(?i)goto\b.*$")
