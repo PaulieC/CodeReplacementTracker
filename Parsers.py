@@ -189,9 +189,9 @@ class SubroutineParser:
         exitto: Matches all strings that contain the whole word exitto. Case is ignored when checking for matches.
         end_routine: TODO
         """
-        self.subroutine_name = re.compile("[^\s + g]\w*" + ":" + "\s*")
-        self.characters = re.compile(r"(?i)(?!return\b)^(?!exit\b)^(?!bye\b)^(?!release\b)^.*")
-        self.gosub = re.compile("[\w + \W]*" + r"(?i)gosub\b" + "[\w + \W]*")
+        self.subroutine_name = re.compile("\s*(?i)(?!gb__)[\w\W]*:\s*")
+        self.characters = re.compile(r"(^(?!.*(return|bye|release|exit)\b).*$)")
+        self.gosub = re.compile("[\w + \W]*" + r"(?i)gosub\b" + "[\w,\W]*")
         self.goto = re.compile("[\w + \W]*" + r"(?i)goto\b" + "[\w + \W]*")
         self.exitto = re.compile("[\w + \W]*" + r"(?i)exitto\b" + "[\w + \W]*")
         self.end_routine = re.compile(r"\s*(?i)return\b\s*")
