@@ -96,6 +96,7 @@ class WindowParser:
     def get_state(self) -> int:
         return self.state
 
+
 class SubroutineParser:
 
     def __init__(self):
@@ -124,60 +125,85 @@ class SubroutineParser:
     def state_0(self, line: str, line_num: int) -> bool:
         self.state = 0
         if self.subroutine_name.match(line):
-            return self.state_1(line, line_num)
-        else:
-            return False
-
-    def state_1(self, line: str, line_num: int) -> bool:
-        self.state = 1
-        if self.subroutine_name.match(line):
             subroutine = Subroutine()
             subroutine.set_name(line)
             subroutine.set_line_dec(line_num)
             self.subroutine_list.append(subroutine)
-            self.state = 4
+            self.state = 1
+            print("Current state:\t" + str(self.state))
             return True
-        elif self.end_routine.match(line):
-            return self.state_3(line, line_num)
         else:
-            return self.state_2(line, line_num)
+            print("Current state:\t" + str(self.state))
+            return False
+
+    def state_1(self, line: str, line_num: int) -> bool:
+        if self.subroutine_name.match(line):
+            self.state = 4
+            print("Current state:\t" + str(self.state))
+            return self.subroutine_list[len(self.subroutine_list) - 1].add_subroutine(line_num, line)
+        elif self.end_routine.match(line):
+            self.state = 3
+            print("Current state:\t" + str(self.state))
+            return self.subroutine_list[len(self.subroutine_list) - 1].set_line_ret(line_num)
+        else:
+            self.state = 2
+            print("Current state:\t" + str(self.state))
+            return self.sort_characters(line, line_num)
+
 
     def state_2(self, line: str, line_num: int) -> bool:
-        self.state = 2
         if self.end_routine.match(line):
-            return self.state_3(line, line_num)
+            self.state = 3
+            print("Current state:\t" + str(self.state))
+            return self.subroutine_list[len(self.subroutine_list) - 1].set_line_ret(line_num)
         elif self.subroutine_name.match(line):
-            self.subroutine_list[len(self.subroutine_list) - 1].add_subroutine(line_num, line)
-            return self.state_4(line, line_num)
-        elif self.gosub.match(line):
+            self.state = 4
+            print("Current state:\t" + str(self.state))
+            return self.subroutine_list[len(self.subroutine_list) - 1].add_subroutine(line_num, line)
+        else:
+            print("Current state:\t" + str(self.state))
+            return self.sort_characters(line, line_num)
+
+    def state_3(self, line: str, line_num: int) -> bool:
+        if self.subroutine_name.match(line):
+            self.state = 1
+            subroutine = Subroutine()
+            subroutine.set_name(line)
+            subroutine.set_line_dec(line_num)
+            self.subroutine_list.append(subroutine)
+            self.state = 1
+            print("Current state:\t" + str(self.state))
+            return True
+        elif self.end_routine.match(line):
+            print("Current state:\t" + str(self.state))
+            return True
+        else:
+            self.state = 0
+            print("Current state:\t" + str(self.state))
+            return False
+
+    def state_4(self, line: str, line_num: int) -> bool:
+        if self.end_routine.match(line):
+            self.state = 3
+            print("Current state:\t" + str(self.state))
+            return self.subroutine_list[len(self.subroutine_list) - 1].set_line_ret(line_num)
+        elif self.subroutine_name.match(line):
+            print("Current state:\t" + str(self.state))
+            return self.subroutine_list[len(self.subroutine_list) - 1].add_subroutine(line_num, line)
+        else:
+            self.state = 2
+            print("Current state:\t" + str(self.state))
+            return self.state_2(line, line_num)
+
+    def sort_characters(self, line: str, line_num: int) -> bool:
+        if self.gosub.match(line):
             return self.subroutine_list[len(self.subroutine_list) - 1].add_gosub(line_num, line)
         elif self.goto.match(line):
             return self.subroutine_list[len(self.subroutine_list) - 1].add_goto(line_num, line)
         elif self.exitto.match(line):
             return self.subroutine_list[len(self.subroutine_list) - 1].add_exit(line_num, line)
         else:
-            return True
-
-    def state_3(self, line: str, line_num: int) -> bool:
-        self.state = 3
-        if self.end_routine.match(line):
-            self.subroutine_list[len(self.subroutine_list) - 1].set_line_ret(line_num)
-            return True
-        elif self.subroutine_name.match(line):
-            return self.state_1(line, line_num)
-        elif self.end_routine.match(line):
-            return True
-        else:
-            return self.state_0(line, line_num)
-
-    def state_4(self, line: str, line_num: int) -> bool:
-        self.state = 4
-        if self.end_routine.match(line):
-            return self.state_3(line, line_num)
-        elif self.subroutine_name.match(line):
-            return self.subroutine_list[len(self.subroutine_list) - 1].add_subroutine(line_num, line)
-        else:
-            return self.state_2(line, line_num)
+            return False
 
     def load_tokens(self) -> None:
         """
@@ -192,7 +218,7 @@ class SubroutineParser:
         exitto: Matches all strings that contain the whole word exitto. Case is ignored when checking for matches.
         end_routine: Matches any string that starts/ends with a series of spaces and is return, bye, release, or exit.
         """
-        self.subroutine_name = re.compile(r"^\s*(?i)(?!gb__.*)\w+:\s*$")
+        self.subroutine_name = re.compile(r"^\s*(?i)(?!gb_.*)\w+:\s*$")
         self.characters = re.compile(r"^(?i)(?!.*(return|bye|release|exit)\b).*$")
         self.gosub = re.compile(r"^.*(?i)gosub\b.*$")
         self.goto = re.compile(r"^.*(?i)goto\b.*$")

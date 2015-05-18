@@ -189,8 +189,6 @@ class CodeRefactor:
                             #     print(str(self.window_parser.get_state()))
                             if self.subroutine_parser.parse(line, line_num):
                                 print(str(line_num) + "\t" + line)
-                                print(str(self.subroutine_parser.get_state()))
-                            print(str(self.subroutine_parser))
                         in_file.close()
                 except FileNotFoundError:
                     print("ERROR: Original source file wasn't found.\n"

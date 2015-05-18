@@ -137,7 +137,7 @@ class Subroutine:
 
     def set_name(self, name: str) -> bool:
         try:
-            self.window_name = name
+            self.subroutine_name = name
             return True
         except Exception:
             return False
